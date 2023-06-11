@@ -31,3 +31,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+#Commerical Fonts
+/public/fonts/iranyekan/*
