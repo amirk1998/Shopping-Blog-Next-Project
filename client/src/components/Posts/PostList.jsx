@@ -1,11 +1,10 @@
 import {
-  ChevronDownIcon,
-  AdjustmentsHorizontalIcon,
   ChatBubbleBottomCenterTextIcon,
   HeartIcon,
   BookmarkIcon,
   ClockIcon,
 } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 import { useState } from 'react';
 
 const PostList = ({ blogsData }) => {
@@ -46,9 +45,11 @@ const PostList = ({ blogsData }) => {
                 </span>
               </div>
               {/* Category */}
-              <span className='cursor-pointer rounded-xl bg-blue-100 px-2 py-1 text-xs text-blue-600 transition-all duration-300 hover:bg-blue-600 hover:text-blue-100'>
-                {blog.category.englishTitle}
-              </span>
+              <Link href={`/blogs/${blog.category.englishTitle}`}>
+                <a className='cursor-pointer rounded-xl bg-blue-100 px-2 py-1 text-xs text-blue-600 transition-all duration-300 hover:bg-blue-600 hover:text-blue-100'>
+                  {blog.category.englishTitle}
+                </a>
+              </Link>
             </div>
             {/* Icons */}
             <div className='flex items-center justify-between'>

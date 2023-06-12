@@ -9,15 +9,16 @@ const CategoryPage = ({ blogsData, postCategories }) => {
   return (
     <div className='bg-gray-100'>
       <div className='container mx-auto px-4 md:px-0 lg:max-w-screen-xl'>
+        <CategoryMobile postCategories={postCategories} />
         <div className='App grid min-h-screen gap-8 md:grid-cols-12 md:grid-rows-[60px_minmax(300px,_1fr)] '>
           <div className='hidden md:col-span-3 md:row-span-2 md:block'>
             <CategoryDesktop postCategories={postCategories} />
           </div>
-          <CategoryMobile postCategories={postCategories} />
+
           <div className='hidden md:col-span-9 md:block'>
             <SortBar />
           </div>
-          <div className='grid grid-cols-6 gap-8 md:col-span-9'>
+          <div className='grid max-h-[340px] grid-cols-6 gap-8 md:col-span-9'>
             <PostList blogsData={blogsData} />
           </div>
         </div>
