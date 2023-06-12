@@ -34,3 +34,6 @@ yarn-error.log*
 
 #Commerical Fonts
 /public/fonts/iranyekan/*
+
+#Test Section
+/public/assets/TEST/*
