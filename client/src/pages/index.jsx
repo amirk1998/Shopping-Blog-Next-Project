@@ -3,22 +3,16 @@ import Link from 'next/link';
 import {
   ChevronDownIcon,
   AdjustmentsHorizontalIcon,
-  ChatBubbleBottomCenterTextIcon,
-  HeartIcon,
-  BookmarkIcon,
-  ClockIcon,
 } from '@heroicons/react/24/outline';
 import axios from 'axios';
-import BlogList from '@/components/Blogs/BlogList';
+import PostList from '@/components/Posts/PostList';
 
-export default function Home({ blogsData }) {
+export default function Home({ blogsData, postCategories }) {
   const [isOpen, setIsOpen] = useState(false);
-
-  console.log(blogsData);
 
   return (
     <div className='bg-gray-100'>
-      <div className='container mx-auto lg:max-w-screen-xl'>
+      <div className='container mx-auto px-4 md:px-0 lg:max-w-screen-xl'>
         <div className='App grid min-h-screen gap-8 md:grid-cols-12 md:grid-rows-[60px_minmax(300px,_1fr)] '>
           {/* Category Desktop */}
           <div className='hidden md:col-span-3 md:row-span-2 md:block'>
@@ -37,23 +31,47 @@ export default function Home({ blogsData }) {
               </div>
               {/* Accordion Content  */}
               <div className={`${isOpen ? 'block' : 'hidden'}`}>
-                <Link href='#'>
+                <Link href='/blogs'>
                   <a className='mb-1 block py-2 pr-4 hover:bg-indigo-100'>
                     همه مقالات
                   </a>
                 </Link>
-                <Link href='#'>
-                  <a className='mb-1 block py-2 pr-4 hover:bg-indigo-100'>
-                    ریکت
-                  </a>
-                </Link>
-                <Link href='#'>
-                  <a className='block py-2 pr-4 hover:bg-indigo-100'>
-                    جاوا اسکریپت
-                  </a>
-                </Link>
+
+                {postCategories.data.map((category) => {
+                  return (
+                    <Link
+                      href={`/blogs/${category.englishTitle}`}
+                      key={category._id}
+                    >
+                      <a className='mb-1 block py-2 pr-4 hover:bg-indigo-100'>
+                        {category.title}
+                      </a>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
+          </div>
+          {/* Category Mobile */}
+          <div className='flex gap-x-4 overflow-x-auto pb-5 md:hidden'>
+            <Link href='/blogs'>
+              <a className='block whitespace-nowrap rounded-3xl border border-slate-400 px-3 py-1 text-sm text-slate-600'>
+                همه مقالات
+              </a>
+            </Link>
+
+            {postCategories.data.map((category) => {
+              return (
+                <Link
+                  href={`/blogs/${category.englishTitle}`}
+                  key={category._id}
+                >
+                  <a className='block whitespace-nowrap rounded-3xl border border-slate-400 px-3 py-1 text-sm text-slate-600'>
+                    {category.title}
+                  </a>
+                </Link>
+              );
+            })}
           </div>
           {/* Sort bar Desktop */}
           <div className='hidden md:col-span-9 md:block'>
@@ -77,7 +95,7 @@ export default function Home({ blogsData }) {
           </div>
           {/* Blog Section */}
           <div className='grid grid-cols-6 gap-8 md:col-span-9'>
-            <BlogList blogsData={blogsData} />
+            <PostList blogsData={blogsData} />
           </div>
         </div>
       </div>
@@ -89,10 +107,14 @@ export async function getServerSideProps(context) {
   const { data: result } = await axios.get(
     'http://localhost:5000/api/posts?page=1&limit=10'
   );
+  const { data: postCategories } = await axios.get(
+    'http://localhost:5000/api/post-category'
+  );
   const { data } = result;
   return {
     props: {
       blogsData: data,
+      postCategories,
     },
   };
 }

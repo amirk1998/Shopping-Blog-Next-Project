@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 
-const BlogList = ({ blogsData }) => {
+const PostList = ({ blogsData }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
@@ -97,4 +97,4 @@ const BlogList = ({ blogsData }) => {
   });
 };
 
-export default BlogList;
+export default PostList;
