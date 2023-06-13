@@ -1,16 +1,22 @@
-import express from "express";
-import asyncHandler from "express-async-handler";
-import { registerValidation, loginValidation } from "../validation.js";
-import bcrypt from "bcryptjs";
-import * as data from "../data.js";
-import User from "../models/user.js";
-import { generateToken, isAdmin, isAuth, isAuthWithCookie, setCookie } from "./../utils.js";
-import cookie from "cookie";
+import express from 'express';
+import asyncHandler from 'express-async-handler';
+import { registerValidation, loginValidation } from '../validation.js';
+import bcrypt from 'bcryptjs';
+import * as data from '../data.js';
+import User from '../models/user.js';
+import {
+  generateToken,
+  isAdmin,
+  isAuth,
+  isAuthWithCookie,
+  setCookie,
+} from './../utils.js';
+import cookie from 'cookie';
 
 const router = express.Router();
 
 router.get(
-  "/seed",
+  '/seed',
   // isAuth,
   // isAdmin,
   asyncHandler(async (req, res) => {
@@ -20,11 +26,12 @@ router.get(
 );
 
 router.post(
-  "/signup",
+  '/signup',
   asyncHandler(async (req, res) => {
     // validate user data
     const { error } = registerValidation(req.body);
-    if (error) return res.status(400).json({ message: error.details[0].message });
+    if (error)
+      return res.status(400).json({ message: error.details[0].message });
 
     // checking if the user is already in the data base :
     const emailExist = await User.findOne({ email: req.body.email });
@@ -32,8 +39,10 @@ router.post(
       phoneNumber: req.body.phoneNumber,
     });
 
-    if (emailExist) return res.status(400).json({ message: "Email already exists !" });
-    if (phoneNumberExist) return res.status(400).json({ message: "phone Number already exists !" });
+    if (emailExist)
+      return res.status(400).json({ message: 'Email already exists !' });
+    if (phoneNumberExist)
+      return res.status(400).json({ message: 'phone Number already exists !' });
 
     // HASH PASSWORD :
     const salt = await bcrypt.genSaltSync(10);
@@ -66,19 +75,21 @@ router.post(
 );
 
 router.post(
-  "/signin",
+  '/signin',
   asyncHandler(async (req, res) => {
     // validate user data
     const { error } = loginValidation(req.body);
-    if (error) return res.status(400).json({ message: error.details[0].message });
+    if (error)
+      return res.status(400).json({ message: error.details[0].message });
 
     // checking if the email exists :
     const user = await User.findOne({ email: req.body.email.toLowerCase() });
-    if (!user) return res.status(400).json({ message: "ایمیل وجود ندارد" });
+    if (!user) return res.status(400).json({ message: 'ایمیل وجود ندارد' });
 
     // PASSWORD IS CORRECT :
     const validPass = await bcrypt.compare(req.body.password, user.password);
-    if (!validPass) return res.status(400).json({ message: "ایمیل یا رمز عبور اشتباه است" });
+    if (!validPass)
+      return res.status(400).json({ message: 'ایمیل یا رمز عبور اشتباه است' });
 
     //? set the httpOnly cookie from back-end
     setCookie(user, res);
@@ -94,32 +105,35 @@ router.post(
 );
 
 router.get(
-  "/logout",
+  '/logout',
   asyncHandler(async (req, res) => {
     const cookieOptions = {
       maxAge: 1,
       httpOnly: true,
       signed: true,
-      sameSite: "Lax",
+      sameSite: 'Lax',
       secure: true,
-      path: "/",
-      domain: process.env.NODE_ENV === "development" ? "localhost" : ".fronthooks.ir",
+      path: '/',
+      domain:
+        process.env.NODE_ENV === 'development' ? 'localhost' : '.fronthooks.ir',
     };
     // Set cookie
-    res.cookie("userToken", null, cookieOptions); //
+    res.cookie('userToken', null, cookieOptions); //
     return res.status(200).json({ roles: null, auth: false });
   })
 );
 
 router.get(
-  "/load",
+  '/load',
   isAuthWithCookie,
   asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id).select("name email phoneNumber");
+    const user = await User.findById(req.user._id).select(
+      'name email phoneNumber'
+    );
     if (user) {
       return res.status(200).send(user);
     }
-    return res.status(400).json({ message: "user no found" });
+    return res.status(400).json({ message: 'user no found' });
   })
 );
 

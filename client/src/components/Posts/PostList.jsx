@@ -1,22 +1,14 @@
-import { toPersianDigits } from '@/utils/toPersianDigits';
-import {
-  ChatBubbleBottomCenterTextIcon,
-  HeartIcon,
-  BookmarkIcon,
-  ClockIcon,
-} from '@heroicons/react/24/outline';
+import { ClockIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { useState } from 'react';
+import PostInteractions from './PostInteractions';
+import { toPersianDigits } from '@/utils/toPersianDigits';
 
 const PostList = ({ blogsData }) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
-
   return blogsData.docs.map((blog) => {
     return (
       <div
         key={blog._id}
-        className='col-span-6 flex flex-col rounded-3xl bg-white p-2 md:col-span-3 lg:col-span-2'
+        className='col-span-6 flex flex-col rounded-3xl bg-white p-2 shadow-sm hover:shadow-xl md:col-span-3 lg:col-span-2'
       >
         {/* Image: Post Cover */}
         <div className='aspect-h-9 aspect-w-16 mb-6'>
@@ -25,7 +17,7 @@ const PostList = ({ blogsData }) => {
               <img
                 src={blog.coverImage}
                 alt=''
-                className='h-full w-full rounded-2xl object-cover object-center py-1'
+                className='h-full w-full rounded-3xl object-cover object-center py-1'
               />
             </a>
           </Link>
@@ -62,41 +54,11 @@ const PostList = ({ blogsData }) => {
             </div>
             {/* Icons */}
             <div className='flex items-center justify-between'>
-              <div className='flex items-center gap-x-2'>
-                <button className='flex items-center gap-x-1 rounded-md bg-gray-200 px-1 py-0.5'>
-                  <ChatBubbleBottomCenterTextIcon className='h-4 w-4 stroke-slate-600' />
-                  <span className='text-xs text-slate-600'>
-                    {blog.commentsCount}
-                  </span>
-                </button>
-                <button
-                  className='flex items-center gap-x-1 rounded-md bg-red-200 px-1 py-0.5'
-                  onClick={() => setIsLiked(!isLiked)}
-                >
-                  <HeartIcon
-                    className={`h-4 w-4 stroke-red-500 ${
-                      isLiked ? 'fill-red-500' : ''
-                    }`}
-                  />
-                  <span className='text-xs text-red-500'>
-                    {blog.likesCount}
-                  </span>
-                </button>
-                <button
-                  className='flex items-center gap-x-1 rounded-md bg-blue-200 px-1 py-0.5'
-                  onClick={() => setIsBookmarked(!isBookmarked)}
-                >
-                  <BookmarkIcon
-                    className={`h-4 w-4 stroke-blue-500 ${
-                      isBookmarked ? 'fill-blue-500' : ''
-                    }`}
-                  />
-                </button>
-              </div>
+              <PostInteractions post={blog} isSmall />
               <div className='flex items-center'>
                 <ClockIcon className='h-4 w-4 stroke-slate-500' />
                 <span className='text-xs text-slate-500'>
-                  زمان مطالعه: {blog.readingTime} دقیقه
+                  زمان مطالعه: {toPersianDigits(blog.readingTime)} دقیقه
                 </span>
               </div>
             </div>

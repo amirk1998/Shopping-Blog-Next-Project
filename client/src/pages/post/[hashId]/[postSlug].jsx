@@ -4,6 +4,7 @@ import { BookmarkIcon as BookmarkSolidIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import toLocalDate from '@/utils/toLocalDate';
 import { toPersianDigits } from '@/utils/toPersianDigits';
+import PostInteractions from '@/components/Posts/PostInteractions';
 
 const PostPage = ({ post }) => {
   console.log(post);
@@ -100,7 +101,7 @@ const PostPage = ({ post }) => {
             میتوان به سادگی کدها را داخل محتوای بلاگ ها قرار داد!
           </p>
           <p>
-            به عنوان مثال، برای کانفیگ تیلویند باید از فایل{' '}
+            به عنوان مثال، برای کانفیگ تیلویند باید از فایل
             <code>tailwind.config.js</code> استفاده کرد:
           </p>
           <pre dir='ltr'>{`module.exports = {
@@ -113,6 +114,27 @@ const PostPage = ({ post }) => {
 }
 `}</pre>
         </main>
+        {/* post tags like-bookmark */}
+        <section>
+          <ul className='mb-6 flex flex-wrap items-center gap-x-4'>
+            {['ریکت', 'جاوااسکریپت', 'فرانت اند', 'Next.js'].map(
+              (tag, index) => {
+                return (
+                  <li
+                    key={index}
+                    className='tex-sm mb-3 block cursor-pointer rounded-2xl bg-gray-200 px-3 py-1 text-gray-600 transition-all hover:bg-gray-300'
+                  >
+                    {tag}
+                  </li>
+                );
+              }
+            )}
+          </ul>
+          {/* Like , Comment , Bookmark */}
+          <div>
+            <PostInteractions post={post} />
+          </div>
+        </section>
       </div>
     </div>
   );
