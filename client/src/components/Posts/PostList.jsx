@@ -19,18 +19,26 @@ const PostList = ({ blogsData }) => {
       >
         {/* Image: Post Cover */}
         <div className='aspect-h-9 aspect-w-16 mb-6'>
-          <img
-            src={blog.coverImage}
-            alt=''
-            className='h-full w-full rounded-2xl object-cover object-center py-1'
-          />
+          <Link href={`/post/${blog.hashId}/${blog.slug}`}>
+            <a>
+              <img
+                src={blog.coverImage}
+                alt=''
+                className='h-full w-full rounded-2xl object-cover object-center py-1'
+              />
+            </a>
+          </Link>
         </div>
         {/* Blog Content */}
         <div className='flex w-full flex-1 flex-col justify-between rounded-2xl bg-gray-100 p-2'>
           {/* Title */}
-          <h2 className='mb-4 font-bold'>{blog.title}</h2>
+          <Link href={`/post/${blog.hashId}/${blog.slug}`}>
+            <a>
+              <h2 className='font-bold'>{blog.title}</h2>
+            </a>
+          </Link>
           {/* Blog Data */}
-          <div>
+          <div className='mt-4'>
             <div className='mb-4 flex items-center justify-between'>
               <div className='flex items-center'>
                 {/* Image */}
