@@ -1,3 +1,4 @@
+import { toPersianDigits } from '@/utils/toPersianDigits';
 import {
   ChatBubbleBottomCenterTextIcon,
   HeartIcon,
@@ -95,7 +96,7 @@ const PostList = ({ blogsData }) => {
               <div className='flex items-center'>
                 <ClockIcon className='h-4 w-4 stroke-slate-500' />
                 <span className='text-xs text-slate-500'>
-                  زمان مطالعه: {blog.readingTime} دقیقه
+                  زمان مطالعه: {toPersianDigits(blog.readingTime)} دقیقه
                 </span>
               </div>
             </div>
