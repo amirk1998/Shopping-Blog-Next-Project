@@ -9,11 +9,15 @@ import {
   BookmarkIcon as BookmarkSolidIcon,
 } from '@heroicons/react/24/solid';
 
-const PostInteractions = ({ post, isSmall }) => {
+const PostInteractions = ({ post, isSmall, className }) => {
   const iconSize = `${isSmall ? 'w-4 h-4' : 'w-6 h-6'}`;
 
   return (
-    <div className={`flex items-center ${isSmall ? 'gap-x-2' : 'gap-x-4'} `}>
+    <div
+      className={`flex items-center ${
+        isSmall ? 'gap-x-2' : 'gap-x-4'
+      } ${className} `}
+    >
       <button className='flex items-center gap-x-1 rounded-md bg-gray-200 px-1 py-0.5 text-slate-600 hover:bg-slate-600 hover:text-gray-200'>
         <ChatBubbleBottomCenterTextIcon
           className={`${iconSize} stroke-current`}

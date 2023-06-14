@@ -5,12 +5,14 @@ import Link from 'next/link';
 import toLocalDate from '@/utils/toLocalDate';
 import { toPersianDigits } from '@/utils/toPersianDigits';
 import PostInteractions from '@/components/Posts/PostInteractions';
+import { IoLogoTwitter, IoLogoLinkedin } from 'react-icons/io';
+import { FaTelegram } from 'react-icons/fa';
 
 const PostPage = ({ post }) => {
   console.log(post);
   return (
     <div className='min-h-screen bg-gray-100'>
-      <div className='container mx-auto md:max-w-screen-lg'>
+      <div className='container mx-auto md:max-w-screen-md'>
         <header className='mx-auto mb-12 flex flex-col gap-y-5 md:flex-row md:items-start md:justify-between'>
           {/* Author Data */}
           <div className='flex items-stretch'>
@@ -130,9 +132,33 @@ const PostPage = ({ post }) => {
               }
             )}
           </ul>
-          {/* Like , Comment , Bookmark */}
-          <div>
-            <PostInteractions post={post} />
+          <div className='flex flex-col gap-y-8 md:flex-row md:justify-between'>
+            {/* Like , Comment , Bookmark */}
+            <PostInteractions
+              post={post}
+              className='w-full justify-evenly md:w-auto'
+            />
+            {/* Share Btns */}
+            <div className='flex w-full items-center justify-evenly gap-x-3 md:w-auto md:gap-x-4'>
+              <a href={`#`} target='_blank' className='block' rel='noreferrer'>
+                <IoLogoLinkedin
+                  size={30}
+                  className='cursor-pointer fill-gray-400 transition-all duration-300 hover:fill-gray-500'
+                />
+              </a>
+              <a href={`#`} target='_blank' className='block' rel='noreferrer'>
+                <IoLogoTwitter
+                  size={30}
+                  className='cursor-pointer fill-gray-400 transition-all duration-300 hover:fill-gray-500'
+                />
+              </a>
+              <a href={`#`} target='_blank' className='block' rel='noreferrer'>
+                <FaTelegram
+                  size={30}
+                  className='cursor-pointer fill-gray-400 transition-all duration-300 hover:fill-gray-500'
+                />
+              </a>
+            </div>
           </div>
         </section>
       </div>
