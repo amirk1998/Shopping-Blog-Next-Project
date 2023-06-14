@@ -1,7 +1,7 @@
 import axios from 'axios';
 import PostList from '@/components/Posts/PostList';
 import CategoryMobile from '@/components/Posts/CategoryMobile';
-import SortBar from '@/components/Posts/Sortbar';
+import SortBar from '@/components/Posts/SortBar';
 import CategoryDesktop from '@/components/Posts/CategoryDesktop';
 import queryString from 'query-string';
 
@@ -19,7 +19,7 @@ const CategoryPage = ({ blogsData, postCategories }) => {
             <SortBar />
           </div>
           <div className='grid max-h-[340px] grid-cols-6 gap-8 md:col-span-9'>
-            <PostList blogsData={blogsData} />
+            <PostList blogsData={blogsData.docs} />
           </div>
         </div>
       </div>

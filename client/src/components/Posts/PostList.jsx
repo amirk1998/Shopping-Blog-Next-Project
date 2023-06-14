@@ -4,7 +4,7 @@ import PostInteractions from './PostInteractions';
 import { toPersianDigits } from '@/utils/toPersianDigits';
 
 const PostList = ({ blogsData }) => {
-  return blogsData.docs.map((blog) => {
+  return blogsData.map((blog) => {
     return (
       <div
         key={blog._id}

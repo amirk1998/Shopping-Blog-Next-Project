@@ -11,6 +11,7 @@ import { FaTelegram } from 'react-icons/fa';
 import { MdContentCopy } from 'react-icons/md';
 import { useState } from 'react';
 import { useSnackbar } from 'notistack';
+import PostList from '@/components/Posts/PostList';
 
 const PostPage = ({ post }) => {
   const [copied, setCopied] = useState(false);
@@ -36,8 +37,8 @@ const PostPage = ({ post }) => {
 
   return (
     <div className='min-h-screen bg-gray-100'>
-      <div className='container mx-auto md:max-w-screen-md'>
-        <header className='mx-auto mb-12 flex flex-col gap-y-5 md:flex-row md:items-start md:justify-between'>
+      <div className='container mx-auto md:max-w-screen-lg'>
+        <header className='mx-auto mb-12 flex max-w-screen-md flex-col gap-y-5 md:flex-row md:items-start md:justify-between'>
           {/* Author Data */}
           <div className='flex items-stretch'>
             <img
@@ -156,7 +157,8 @@ const PostPage = ({ post }) => {
               }
             )}
           </ul>
-          <div className='flex flex-col gap-y-8 md:flex-row md:justify-between'>
+          {/* Post Interaction */}
+          <div className='flex flex-col gap-y-8 pb-6 md:flex-row md:justify-between'>
             {/* Like , Comment , Bookmark */}
             <PostInteractions
               post={post}
@@ -211,6 +213,15 @@ const PostPage = ({ post }) => {
                 </CopyToClipboard>
               </div>
             </div>
+          </div>
+          <hr className='mb-6 w-full border border-slate-600' />
+        </section>
+        <section className='mb-20'>
+          <h2 className='mb-8 text-2xl font-extrabold text-slate-800 md:text-3xl'>
+            پست های مشابه
+          </h2>
+          <div className='grid grid-cols-6 gap-8 pb-8'>
+            <PostList blogsData={post.related} />
           </div>
         </section>
       </div>
