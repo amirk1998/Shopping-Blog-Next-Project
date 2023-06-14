@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["src/components/*"],
@@ -9,5 +10,6 @@
       "@/common/*": ["src/common/*"],
       "@/utils/*": ["src/utils/*"]
     }
-  }
+  },
+  "exclude": ["node_modules", ".next"]
 }

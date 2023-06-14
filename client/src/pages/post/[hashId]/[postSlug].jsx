@@ -1,15 +1,39 @@
-import axios from 'axios';
-import { LinkIcon, BookmarkIcon } from '@heroicons/react/24/outline';
-import { BookmarkIcon as BookmarkSolidIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
+import axios from 'axios';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import PostInteractions from '@/components/Posts/PostInteractions';
 import toLocalDate from '@/utils/toLocalDate';
 import { toPersianDigits } from '@/utils/toPersianDigits';
-import PostInteractions from '@/components/Posts/PostInteractions';
 import { IoLogoTwitter, IoLogoLinkedin } from 'react-icons/io';
+import { LinkIcon, BookmarkIcon } from '@heroicons/react/24/outline';
+import { BookmarkIcon as BookmarkSolidIcon } from '@heroicons/react/24/solid';
 import { FaTelegram } from 'react-icons/fa';
+import { MdContentCopy } from 'react-icons/md';
+import { useState } from 'react';
+import { useSnackbar } from 'notistack';
 
 const PostPage = ({ post }) => {
-  console.log(post);
+  const [copied, setCopied] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const copyHandler = () => {
+    setCopied(true);
+
+    enqueueSnackbar('لینک کپی شد !', {
+      variant: 'success',
+      autoHideDuration: 3000,
+      preventDuplicate: true,
+      anchorOrigin: {
+        vertical: 'top',
+        horizontal: 'center',
+      },
+    });
+
+    setTimeout(() => {
+      setCopied(false);
+    }, 1000);
+  };
+
   return (
     <div className='min-h-screen bg-gray-100'>
       <div className='container mx-auto md:max-w-screen-md'>
@@ -139,25 +163,53 @@ const PostPage = ({ post }) => {
               className='w-full justify-evenly md:w-auto'
             />
             {/* Share Btns */}
-            <div className='flex w-full items-center justify-evenly gap-x-3 md:w-auto md:gap-x-4'>
-              <a href={`#`} target='_blank' className='block' rel='noreferrer'>
-                <IoLogoLinkedin
-                  size={30}
-                  className='cursor-pointer fill-gray-400 transition-all duration-300 hover:fill-gray-500'
-                />
-              </a>
-              <a href={`#`} target='_blank' className='block' rel='noreferrer'>
-                <IoLogoTwitter
-                  size={30}
-                  className='cursor-pointer fill-gray-400 transition-all duration-300 hover:fill-gray-500'
-                />
-              </a>
-              <a href={`#`} target='_blank' className='block' rel='noreferrer'>
-                <FaTelegram
-                  size={30}
-                  className='cursor-pointer fill-gray-400 transition-all duration-300 hover:fill-gray-500'
-                />
-              </a>
+            <div className='flex w-full flex-col items-center gap-y-6 md:w-auto md:flex-row md:justify-between md:gap-x-6 md:gap-y-0 '>
+              <div className='flex w-full items-center justify-evenly gap-x-3 md:w-auto md:gap-x-4'>
+                <a
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${process.env.NEXT_PUBLIC_DOMAIN_URL}/post/${post.hashId}/${post.slug}`}
+                  target='_blank'
+                  className='block'
+                  rel='noreferrer'
+                >
+                  <IoLogoLinkedin
+                    size={30}
+                    className='cursor-pointer fill-gray-400 transition-all duration-300 hover:fill-gray-500'
+                  />
+                </a>
+                <a
+                  href={`https://twitter.com/share?text=${post.title}&url=${process.env.NEXT_PUBLIC_DOMAIM_URL}/posts/${post.hashId}/${post.slug}`}
+                  target='_blank'
+                  className='block'
+                  rel='noreferrer'
+                >
+                  <IoLogoTwitter
+                    size={30}
+                    className='cursor-pointer fill-gray-400 transition-all duration-300 hover:fill-gray-500'
+                  />
+                </a>
+                <a
+                  href={`https://telegram.me/share/url?url=${process.env.NEXT_PUBLIC_DOMAIM_URL}/posts/${post.hashId}/${post.slug}&text=${post.title}`}
+                  target='_blank'
+                  className='block'
+                  rel='noreferrer'
+                >
+                  <FaTelegram
+                    size={30}
+                    className='cursor-pointer fill-gray-400 transition-all duration-300 hover:fill-gray-500'
+                  />
+                </a>
+              </div>
+              <div>
+                <CopyToClipboard
+                  text={`${process.env.NEXT_PUBLIC_DOMAIM_URL}/posts/${post.hashId}/${post.slug}`}
+                  onCopy={copyHandler}
+                >
+                  <div className='flex cursor-pointer items-center gap-x-2 rounded-2xl border bg-gray-200 px-3 py-1 text-gray-600 hover:bg-gray-300'>
+                    <span>کپی&nbsp;لینک</span>
+                    <MdContentCopy size={24} />
+                  </div>
+                </CopyToClipboard>
+              </div>
             </div>
           </div>
         </section>
