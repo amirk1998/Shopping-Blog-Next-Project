@@ -12,6 +12,7 @@ import { MdContentCopy } from 'react-icons/md';
 import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import PostList from '@/components/Posts/PostList';
+import PostComments from '@/components/Posts/PostComments';
 
 const PostPage = ({ post }) => {
   const [copied, setCopied] = useState(false);
@@ -220,10 +221,12 @@ const PostPage = ({ post }) => {
           <h2 className='mb-8 text-2xl font-extrabold text-slate-800 md:text-3xl'>
             پست های مشابه
           </h2>
-          <div className='grid grid-cols-6 gap-8 pb-8'>
+          <div className='grid grid-cols-3 gap-8 pb-8 md:grid-cols-9 lg:grid-cols-6'>
             <PostList blogsData={post.related} />
           </div>
         </section>
+        {/* Post Comments */}
+        <PostComments post={post} />
       </div>
     </div>
   );
