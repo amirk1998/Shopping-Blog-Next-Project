@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import SingleComment from './SingleComment';
 import CommentForm from './CommentForm';
+import ReplyComment from './ReplyComment';
 
 const PostComments = ({ post }) => {
   const [commentValue, setCommentValue] = useState('');
@@ -16,6 +17,10 @@ const PostComments = ({ post }) => {
           comment.status === 2 && (
             <div key={comment._id}>
               <SingleComment comment={comment} />
+              <ReplyComment
+                comments={post.comments}
+                parentCommentId={comment._id}
+              />
             </div>
           )
         );
