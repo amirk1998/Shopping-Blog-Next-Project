@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import PostList from '@/components/Posts/PostList';
 import PostComments from '@/components/Posts/PostComments';
+import Layout from '@/containers/Layout';
 
 const PostPage = ({ post }) => {
   const [copied, setCopied] = useState(false);
@@ -37,8 +38,8 @@ const PostPage = ({ post }) => {
   };
 
   return (
-    <div className='min-h-screen bg-gray-100'>
-      <div className='container mx-auto md:max-w-screen-lg'>
+    <Layout>
+      <div className='container mx-auto md:max-w-screen-lg pb-10'>
         <header className='mx-auto mb-12 flex max-w-screen-md flex-col gap-y-5 md:flex-row md:items-start md:justify-between'>
           {/* Author Data */}
           <div className='flex items-stretch'>
@@ -228,7 +229,7 @@ const PostPage = ({ post }) => {
         {/* Post Comments */}
         <PostComments post={post} />
       </div>
-    </div>
+    </Layout>
   );
 };
 

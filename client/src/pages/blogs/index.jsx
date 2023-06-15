@@ -3,11 +3,12 @@ import PostList from '@/components/Posts/PostList';
 import CategoryMobile from '@/components/Posts/CategoryMobile';
 import SortBar from '@/components/Posts/SortBar';
 import CategoryDesktop from '@/components/Posts/CategoryDesktop';
+import Layout from '@/containers/Layout';
 
 const Blogs = ({ blogsData, postCategories }) => {
   return (
-    <div className='bg-gray-100'>
-      <div className='container mx-auto px-4 md:px-0 lg:max-w-screen-xl'>
+    <Layout>
+      <div className='container mx-auto px-4 md:px-0 lg:max-w-screen-xl pb-8'>
         <CategoryMobile postCategories={postCategories} />
         <div className='App grid min-h-screen gap-8 md:grid-cols-12 md:grid-rows-[60px_minmax(300px,_1fr)] '>
           <div className='hidden md:col-span-3 md:row-span-2 md:block'>
@@ -21,7 +22,7 @@ const Blogs = ({ blogsData, postCategories }) => {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 
