@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useContext } from 'react';
 import { toast } from 'react-hot-toast';
+import { useReducerAsync } from 'use-reducer-async';
 
 const AuthContext = createContext();
 const AuthContextDispatcher = createContext();
@@ -13,32 +14,57 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'signin': {
-      axios
-        .post('http://localhost:5000/api/user/signin', action.payload, {
-          withCredentials: true,
-        })
-        .then((res) => {
-          toast.success('با موفقیت وارد شدید', {
-            id: 'my-unique-toast-id',
-          });
-          console.log(res.data);
-        })
-        .catch((error) => {
-          console.log(error?.response?.data?.message);
-          toast.error(error?.response?.data?.message, {
-            id: 'my-unique-toast-id',
-          });
-        });
-    }
+    case 'SIGNIN_PENDING':
+      return { user: null, loading: true, error: null };
+    case 'SIGNIN_SUCCESS':
+      return { user: action.payload, loading: false, error: null };
+    case 'SIGNIN_REJECT':
+      return { user: null, loading: false, error: action.error };
     default: {
       return { ...state };
     }
   }
 };
 
+const asyncActionHandlers = {
+  SIGNIN:
+    ({ dispatch }) =>
+    (action) => {
+      dispatch({ type: 'SIGNIN_PENDING' });
+      axios
+        .post('http://localhost:5000/api/user/signin', action.payload, {
+          withCredentials: true,
+        })
+        .then(({ data }) => {
+          toast.success('با موفقیت وارد شدید', {
+            id: 'signin-toast-id',
+          });
+          //
+          dispatch({ type: 'SIGNIN_SUCCESS', payload: data });
+          console.log(data);
+        })
+        .catch((error) => {
+          dispatch({
+            type: 'SIGNIN_REJECT',
+            error: error?.response?.data?.message,
+          });
+          toast.error(error?.response?.data?.message, {
+            id: 'signin-toast-id',
+          });
+        });
+    },
+  //
+  SIGNUP: {},
+  //
+  SIGNOUT: {},
+};
+
 const AuthProvider = ({ children }) => {
-  const [user, dispatch] = useReducer(reducer, initialState);
+  const [user, dispatch] = useReducerAsync(
+    reducer,
+    initialState,
+    asyncActionHandlers
+  );
 
   return (
     <AuthContext.Provider value={user}>
