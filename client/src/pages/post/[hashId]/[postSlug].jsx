@@ -10,26 +10,19 @@ import { BookmarkIcon as BookmarkSolidIcon } from '@heroicons/react/24/solid';
 import { FaTelegram } from 'react-icons/fa';
 import { MdContentCopy } from 'react-icons/md';
 import { useState } from 'react';
-import { useSnackbar } from 'notistack';
 import PostList from '@/components/Posts/PostList';
 import PostComments from '@/components/Posts/PostComments';
 import Layout from '@/containers/Layout';
+import { toast } from 'react-hot-toast';
 
 const PostPage = ({ post }) => {
   const [copied, setCopied] = useState(false);
-  const { enqueueSnackbar } = useSnackbar();
 
   const copyHandler = () => {
     setCopied(true);
 
-    enqueueSnackbar('لینک کپی شد !', {
-      variant: 'success',
-      autoHideDuration: 3000,
-      preventDuplicate: true,
-      anchorOrigin: {
-        vertical: 'top',
-        horizontal: 'center',
-      },
+    toast.success('لینک کپی شد !', {
+      id: 'toast-copy-link-id',
     });
 
     setTimeout(() => {
@@ -39,7 +32,7 @@ const PostPage = ({ post }) => {
 
   return (
     <Layout>
-      <div className='container mx-auto md:max-w-screen-lg pb-10'>
+      <div className='container mx-auto pb-10 md:max-w-screen-lg'>
         <header className='mx-auto mb-12 flex max-w-screen-md flex-col gap-y-5 md:flex-row md:items-start md:justify-between'>
           {/* Author Data */}
           <div className='flex items-stretch'>

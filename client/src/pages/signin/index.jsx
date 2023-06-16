@@ -5,6 +5,10 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import Head from 'next/head';
 import Input from '@/components/FormInput';
+import axios from 'axios';
+import { useSnackbar } from 'notistack';
+import { useRouter } from 'next/router';
+import { useAuthActions } from '@/context/AuthContext';
 
 const initialValues = {
   email: '',
@@ -21,9 +25,13 @@ const validationSchema = Yup.object({
 });
 
 const LoginForm = () => {
-  //
+  const router = useRouter();
+  const dispatch = useAuthActions()
+
+
   const onSubmit = (values) => {
     const { email, password } = values;
+    dispatch({type:'signin',payload:values})
   };
 
   const formik = useFormik({
