@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import { useReducerAsync } from 'use-reducer-async';
 import Router from 'next/router';
@@ -81,8 +81,44 @@ const asyncActionHandlers = {
           });
         });
     },
-  //
-  SIGNOUT: {},
+  // Load User
+  LOAD_USER:
+    ({ dispatch }) =>
+    (action) => {
+      dispatch({ type: 'ACTION_PENDING' });
+      axios
+        .get('http://localhost:5000/api/user/load', {
+          withCredentials: true,
+        })
+        .then(({ data }) => {
+          dispatch({ type: 'ACTION_SUCCESS', payload: data });
+        })
+        .catch((error) => {
+          dispatch({
+            type: 'ACTION_REJECT',
+            error: error?.response?.data?.message,
+          });
+        });
+    },
+
+  // SIGN Out
+  SIGNOUT:
+    ({ dispatch }) =>
+    (action) => {
+      axios
+        .get('http://localhost:5000/api/user/logout', {
+          withCredentials: true,
+        })
+        .then(({ data }) => {
+          window.location.href = '/';
+        })
+        .catch((error) => {
+          dispatch({
+            type: 'ACTION_REJECT',
+            error: error?.response?.data?.message,
+          });
+        });
+    },
 };
 
 const AuthProvider = ({ children }) => {
@@ -91,6 +127,10 @@ const AuthProvider = ({ children }) => {
     initialState,
     asyncActionHandlers
   );
+
+  useEffect(() => {
+    dispatch({ type: 'LOAD_USER' });
+  }, []);
 
   return (
     <AuthContext.Provider value={user}>

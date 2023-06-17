@@ -1,8 +1,9 @@
-import { useAuth } from '@/context/AuthContext';
+import { useAuth, useAuthActions } from '@/context/AuthContext';
 import Link from 'next/link';
 
 const Header = () => {
   const { user, loading } = useAuth();
+  const dispatch = useAuthActions();
 
   return (
     <header className={`sticky top-0 z-40 mb-8 bg-white py-2 shadow-md`}>
@@ -28,7 +29,7 @@ const Header = () => {
               <>
                 <button
                   className='rounded bg-red-500 px-2 py-1 text-red-100 hover:bg-red-700'
-                  // onClick={() => dispatch(signout())}
+                  onClick={() => dispatch({ type: 'SIGNOUT' })}
                 >
                   خروج
                 </button>
