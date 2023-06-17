@@ -2,6 +2,7 @@ import axios from 'axios';
 import { createContext, useContext } from 'react';
 import { toast } from 'react-hot-toast';
 import { useReducerAsync } from 'use-reducer-async';
+import Router from 'next/router';
 
 const AuthContext = createContext();
 const AuthContextDispatcher = createContext();
@@ -14,11 +15,11 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'SIGNIN_PENDING':
+    case 'ACTION_PENDING':
       return { user: null, loading: true, error: null };
-    case 'SIGNIN_SUCCESS':
+    case 'ACTION_SUCCESS':
       return { user: action.payload, loading: false, error: null };
-    case 'SIGNIN_REJECT':
+    case 'ACTION_REJECT':
       return { user: null, loading: false, error: action.error };
     default: {
       return { ...state };
@@ -27,10 +28,11 @@ const reducer = (state, action) => {
 };
 
 const asyncActionHandlers = {
+  // SIGN In
   SIGNIN:
     ({ dispatch }) =>
     (action) => {
-      dispatch({ type: 'SIGNIN_PENDING' });
+      dispatch({ type: 'ACTION_PENDING' });
       axios
         .post('http://localhost:5000/api/user/signin', action.payload, {
           withCredentials: true,
@@ -39,13 +41,12 @@ const asyncActionHandlers = {
           toast.success('با موفقیت وارد شدید', {
             id: 'signin-toast-id',
           });
-          //
-          dispatch({ type: 'SIGNIN_SUCCESS', payload: data });
-          console.log(data);
+          dispatch({ type: 'ACTION_SUCCESS', payload: data });
+          Router.push('/');
         })
         .catch((error) => {
           dispatch({
-            type: 'SIGNIN_REJECT',
+            type: 'ACTION_REJECT',
             error: error?.response?.data?.message,
           });
           toast.error(error?.response?.data?.message, {
@@ -53,8 +54,33 @@ const asyncActionHandlers = {
           });
         });
     },
-  //
-  SIGNUP: {},
+  // SIGN Up
+  SIGNUP:
+    ({ dispatch }) =>
+    (action) => {
+      dispatch({ type: 'ACTION_PENDING' });
+      axios
+        .post('http://localhost:5000/api/user/signup', action.payload, {
+          withCredentials: true,
+        })
+        .then(({ data }) => {
+          toast.success('با موفقیت وارد شدید', {
+            id: 'signup-toast-id',
+          });
+
+          dispatch({ type: 'ACTION_SUCCESS', payload: data });
+          Router.push('/');
+        })
+        .catch((error) => {
+          dispatch({
+            type: 'ACTION_REJECT',
+            error: error?.response?.data?.message,
+          });
+          toast.error(error?.response?.data?.message, {
+            id: 'signup-toast-id',
+          });
+        });
+    },
   //
   SIGNOUT: {},
 };

@@ -5,9 +5,8 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import Head from 'next/head';
 import Input from '@/components/FormInput';
-import axios from 'axios';
+import { useAuth, useAuthActions } from '@/context/AuthContext';
 import { useRouter } from 'next/router';
-import { useAuthActions } from '@/context/AuthContext';
 
 const initialValues = {
   email: '',
@@ -26,6 +25,7 @@ const validationSchema = Yup.object({
 const LoginForm = () => {
   const router = useRouter();
   const dispatch = useAuthActions();
+  const { user, loading } = useAuth();
 
   const onSubmit = (values) => {
     const { email, password } = values;
@@ -38,6 +38,12 @@ const LoginForm = () => {
     validationSchema,
     validateOnMount: true,
   });
+
+  useEffect(() => {
+    if (user) {
+      router.push('/');
+    }
+  }, [user]);
 
   return (
     <Layout>
@@ -65,7 +71,7 @@ const LoginForm = () => {
           </button>
           <Link href='/signup'>
             <p className='mt-4 cursor-pointer py-4'>
-              هنوز ثبت نام نکردی؟ لاگین
+              هنوز ثبت نام نکردی؟ ثبت نام کن
             </p>
           </Link>
         </form>
