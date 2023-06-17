@@ -8,7 +8,7 @@ const PostList = ({ blogsData }) => {
     return (
       <div
         key={blog._id}
-        className='col-span-6 flex flex-col rounded-3xl bg-white p-2 shadow-sm hover:shadow-xl md:col-span-3 lg:col-span-2'
+        className='col-span-6 flex h-[340px] flex-col rounded-3xl bg-white p-2 shadow-sm hover:shadow-xl md:col-span-3 lg:col-span-2'
       >
         {/* Image: Post Cover */}
         <div className='aspect-h-9 aspect-w-16 mb-6'>

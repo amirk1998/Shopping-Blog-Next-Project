@@ -1,4 +1,4 @@
-import axios from 'axios';
+import queryString from 'query-string';
 import PostList from '@/components/Posts/PostList';
 import CategoryMobile from '@/components/Posts/CategoryMobile';
 import SortBar from '@/components/Posts/SortBar';
@@ -29,12 +29,15 @@ const Blogs = ({ blogsData, postCategories }) => {
 
 export default Blogs;
 
-export async function getServerSideProps({ req }) {
-  const { data: result } = await http.get('/posts?page=1&limit=10', {
-    headers: {
-      Cookie: req.headers.cookie || '',
-    },
-  });
+export async function getServerSideProps({ req, query }) {
+  const { data: result } = await http.get(
+    `/posts?${queryString.stringify(query)}`,
+    {
+      headers: {
+        Cookie: req.headers.cookie || '',
+      },
+    }
+  );
   const { data: postCategories } = await http.get('/post-category');
   const { data } = result;
   return {
