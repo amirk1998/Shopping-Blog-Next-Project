@@ -30,7 +30,7 @@ const SortBar = () => {
               <li
                 className={`cursor-pointer py-4 text-slate-700 ${
                   id === sort
-                    ? 'font-bold text-orange-500 underline underline-offset-8 '
+                    ? 'font-bold text-indigo-500 underline decoration-2 underline-offset-8 '
                     : ''
                 }`}
                 key={id}
