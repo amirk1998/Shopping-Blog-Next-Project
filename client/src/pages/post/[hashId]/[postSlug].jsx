@@ -14,6 +14,7 @@ import PostList from '@/components/Posts/PostList';
 import PostComments from '@/components/Posts/PostComments';
 import Layout from '@/containers/Layout';
 import { toast } from 'react-hot-toast';
+import http from '@/services/httpService';
 
 const PostPage = ({ post }) => {
   const [copied, setCopied] = useState(false);
@@ -232,7 +233,7 @@ export async function getServerSideProps(context) {
   const { query, req } = context;
   const {
     data: { data },
-  } = await axios.get(`http://localhost:5000/api/posts/${query.postSlug}`, {
+  } = await http.get(`/posts/${query.postSlug}`, {
     withCredentials: true,
     headers: {
       Cookie: req.headers.cookie || '',

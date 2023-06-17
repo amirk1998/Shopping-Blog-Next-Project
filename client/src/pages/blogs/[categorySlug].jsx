@@ -5,6 +5,7 @@ import SortBar from '@/components/Posts/SortBar';
 import CategoryDesktop from '@/components/Posts/CategoryDesktop';
 import queryString from 'query-string';
 import Layout from '@/containers/Layout';
+import http from '@/services/httpService';
 
 const CategoryPage = ({ blogsData, postCategories }) => {
   return (
@@ -33,8 +34,8 @@ export default CategoryPage;
 export async function getServerSideProps(context) {
   const { query, req } = context;
 
-  const { data: result } = await axios.get(
-    `http://localhost:5000/api/posts?${queryString.stringify(query)}`,
+  const { data: result } = await http.get(
+    `/posts?${queryString.stringify(query)}`,
     {
       withCredentials: true,
       headers: {
@@ -42,9 +43,7 @@ export async function getServerSideProps(context) {
       },
     }
   );
-  const { data: postCategories } = await axios.get(
-    'http://localhost:5000/api/post-category'
-  );
+  const { data: postCategories } = await http.get('/post-category');
   const { data } = result;
   return {
     props: {

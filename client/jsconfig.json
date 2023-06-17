@@ -8,7 +8,8 @@
       "@/context/*": ["src/context/*"],
       "@/hooks/*": ["src/hooks/*"],
       "@/common/*": ["src/common/*"],
-      "@/utils/*": ["src/utils/*"]
+      "@/utils/*": ["src/utils/*"],
+      "@/services/*": ["src/services/*"]
     }
   },
   "exclude": ["node_modules", ".next"]
