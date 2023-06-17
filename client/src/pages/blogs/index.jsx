@@ -31,7 +31,6 @@ export default Blogs;
 
 export async function getServerSideProps({ req }) {
   const { data: result } = await http.get('/posts?page=1&limit=10', {
-    withCredentials: true,
     headers: {
       Cookie: req.headers.cookie || '',
     },

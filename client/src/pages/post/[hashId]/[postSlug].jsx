@@ -234,7 +234,6 @@ export async function getServerSideProps(context) {
   const {
     data: { data },
   } = await http.get(`/posts/${query.postSlug}`, {
-    withCredentials: true,
     headers: {
       Cookie: req.headers.cookie || '',
     },
