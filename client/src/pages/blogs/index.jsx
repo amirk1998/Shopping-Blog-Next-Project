@@ -8,7 +8,7 @@ import Layout from '@/containers/Layout';
 const Blogs = ({ blogsData, postCategories }) => {
   return (
     <Layout>
-      <div className='container mx-auto px-4 md:px-0 lg:max-w-screen-xl pb-8'>
+      <div className='container mx-auto px-4 pb-8 md:px-0 lg:max-w-screen-xl'>
         <CategoryMobile postCategories={postCategories} />
         <div className='App grid min-h-screen gap-8 md:grid-cols-12 md:grid-rows-[60px_minmax(300px,_1fr)] '>
           <div className='hidden md:col-span-3 md:row-span-2 md:block'>
@@ -28,9 +28,15 @@ const Blogs = ({ blogsData, postCategories }) => {
 
 export default Blogs;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({ req }) {
   const { data: result } = await axios.get(
-    'http://localhost:5000/api/posts?page=1&limit=10'
+    'http://localhost:5000/api/posts?page=1&limit=10',
+    {
+      withCredentials: true,
+      headers: {
+        Cookie: req.headers.cookie || '',
+      },
+    }
   );
   const { data: postCategories } = await axios.get(
     'http://localhost:5000/api/post-category'

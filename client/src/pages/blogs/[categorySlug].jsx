@@ -4,10 +4,11 @@ import CategoryMobile from '@/components/Posts/CategoryMobile';
 import SortBar from '@/components/Posts/SortBar';
 import CategoryDesktop from '@/components/Posts/CategoryDesktop';
 import queryString from 'query-string';
+import Layout from '@/containers/Layout';
 
 const CategoryPage = ({ blogsData, postCategories }) => {
   return (
-    <div className='bg-gray-100'>
+    <Layout>
       <div className='container mx-auto px-4 md:px-0 lg:max-w-screen-xl'>
         <CategoryMobile postCategories={postCategories} />
         <div className='App grid min-h-screen gap-8 md:grid-cols-12 md:grid-rows-[60px_minmax(300px,_1fr)] '>
@@ -23,17 +24,23 @@ const CategoryPage = ({ blogsData, postCategories }) => {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 
 export default CategoryPage;
 
 export async function getServerSideProps(context) {
-  const { query } = context;
+  const { query, req } = context;
 
   const { data: result } = await axios.get(
-    `http://localhost:5000/api/posts?${queryString.stringify(query)}`
+    `http://localhost:5000/api/posts?${queryString.stringify(query)}`,
+    {
+      withCredentials: true,
+      headers: {
+        Cookie: req.headers.cookie || '',
+      },
+    }
   );
   const { data: postCategories } = await axios.get(
     'http://localhost:5000/api/post-category'
