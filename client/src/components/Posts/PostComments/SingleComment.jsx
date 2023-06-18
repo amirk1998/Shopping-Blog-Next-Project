@@ -31,7 +31,11 @@ const SingleComment = ({ comment, postId }) => {
           <label htmlFor='base_comment' className='text-sm text-gray-500  '>
             در حال پاسخ به {comment.writer?.name}
           </label>
-          <CommentForm postId={postId} responseTo={comment._id} />
+          <CommentForm
+            postId={postId}
+            responseTo={comment._id}
+            setIsReply={setIsReply}
+          />
         </div>
       )}
     </div>
