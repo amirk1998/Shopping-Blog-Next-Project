@@ -1,16 +1,15 @@
 import toLocalDate from '@/utils/toLocalDate';
-import { UserIcon } from '@heroicons/react/24/outline';
+import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import CommentForm from './CommentForm';
 
-const SingleComment = ({ comment }) => {
+const SingleComment = ({ comment, postId }) => {
   const [isReply, setIsReply] = useState(false);
-  const [commentValue, setCommentValue] = useState('');
 
   return (
-    <div className='mb-8 rounded-xl border border-gray-300 p-4'>
+    <div className='mb-8 overflow-hidden rounded-xl border border-gray-300 bg-white p-4 shadow-lg '>
       <div className='flex items-center justify-start '>
-        <UserIcon className='h-12 w-12 stroke-gray-400' strokeWidth={1} />
+        <UserCircleIcon className='h-12 w-12 stroke-gray-400' strokeWidth={1} />
         <div className='mr-4 flex flex-col justify-between'>
           <span className='block text-sm text-gray-600 '>
             {comment.writer?.name}
@@ -32,7 +31,7 @@ const SingleComment = ({ comment }) => {
           <label htmlFor='base_comment' className='text-sm text-gray-500  '>
             در حال پاسخ به {comment.writer?.name}
           </label>
-          <CommentForm comment={commentValue} setComment={setCommentValue} />
+          <CommentForm postId={postId} responseTo={comment._id} />
         </div>
       )}
     </div>
