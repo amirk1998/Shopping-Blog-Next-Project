@@ -5,18 +5,9 @@ import SortBar from '@/components/Posts/SortBar';
 import CategoryDesktop from '@/components/Posts/CategoryDesktop';
 import Layout from '@/containers/Layout';
 import http from '@/services/httpService';
-import Pagination from '@mui/material/Pagination';
-import { useRouter } from 'next/router';
-import routerPush from '@/utils/routerPush';
+import PaginationComponent from '@/common/Pagination';
 
 const Blogs = ({ blogsData, postCategories }) => {
-  const router = useRouter();
-
-  const pageHandler = (e, page) => {
-    router.query.page = page;
-    routerPush(router);
-  };
-
   return (
     <Layout>
       <div className='container mx-auto px-4 pb-8 md:px-0 lg:max-w-screen-xl'>
@@ -30,16 +21,10 @@ const Blogs = ({ blogsData, postCategories }) => {
           </div>
           <div className='grid grid-cols-6 gap-8 md:col-span-9'>
             <PostList blogsData={blogsData.docs} />
-            <div className='col-span-6 flex justify-center' dir='ltr'>
-              {blogsData.page > 1 && (
-                <Pagination
-                  count={blogsData.totalPages}
-                  page={blogsData.page}
-                  onChange={pageHandler}
-                  color='primary'
-                />
-              )}
-            </div>
+            <PaginationComponent
+              totalPages={blogsData.totalPages}
+              page={blogsData.page}
+            />
           </div>
         </div>
       </div>
