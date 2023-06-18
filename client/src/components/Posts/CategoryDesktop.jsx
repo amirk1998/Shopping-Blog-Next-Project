@@ -8,7 +8,7 @@ const CategoryDesktop = ({ postCategories }) => {
   const { query } = useRouter();
 
   return (
-    <div className='overflow-hidden rounded-3xl bg-white'>
+    <div className='sticky top-24 overflow-hidden rounded-3xl bg-white'>
       {/* Accordion Header  */}
       <div
         className='flex cursor-pointer items-center justify-between bg-indigo-300 p-4'
